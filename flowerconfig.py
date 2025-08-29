@@ -1,0 +1,11 @@
+persistent=True
+debug=True
+state_save_interval=1000
+tasks_columns="name,uuid,state,args,kwargs,result,received,started,runtime,worker,retries,revoked,exception,expires,eta"
+CELERY_RESULT_PERSISTENT=True
+broker_connection_retry_on_startup=True
+persistent=True
+task_acks_late = True
+broker_connection_timeout = 3000
+task_publish_retry = True
+broker_transport_options={'confirm': True, 'persistent': True, 'delivery_mode': 2, 'heartbeat': 10, 'channel_pool_size': 2,}
