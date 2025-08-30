@@ -85,13 +85,13 @@ class DaoDashboards():
             series_receveur_by_month[int(month)-1] = count
         data["receveurs_by_month"] = {"categories": categories_receveur_by_month, "series": series_receveur_by_month}
 
-        # nombre de poche de sang en quarantaine: retouner tous les fractions de poche de sang donc la date de disponibilite est superieure a la date d'aujourdhui
+        # nombre de poche de sang qualifiees: retouner tous les fractions de poche de sang donc la date de disponibilite est superieure a la date d'aujourdhui
 
-        data["fractions_en_qurantaine"] = len(self.db.query(Fraction).filter(Fraction.estDistribue==False).filter(Fraction.dateAvailable>=datetime.today().date()).all())
+        data["fractions_qualifiees"] = len(self.db.query(Fraction).filter(Fraction.estDistribue==False).filter(Fraction.dateDeExpiration>=datetime.today().date()).all())
 
         # total des candidats au don: est un donneurs qui n'a pas ete valide par le medecin et qui n'a pas encore faire de TDR
 
-        data["candidat_au_don"] = len(self.db.query(Donneur).filter(and_(Donneur.isValideMedecin==None, Donneur.isValideAnalyseTDR==None, Donneur.dateDeProchainDon<=datetime.today().date())).all())
+        data["candidat_au_don"] = len(self.db.query(Donneur).filter(and_(Donneur.is_tdr_done==False, Donneur.isValideAnalyseTDR==False, Donneur.dateDeProchainDon==Donneur.dateDernierDon)).all())
 
         # total des candidats rejected par le medecin
 
@@ -99,7 +99,7 @@ class DaoDashboards():
 
         # total des candidats rejected par le medecin
 
-        data["candidat_au_don_reject_TDR"] = len(self.db.query(Donneur).filter(Donneur.isValideAnalyseTDR==False).all())
+        data["candidat_au_don_reject_TDR"] = len(self.db.query(Donneur).filter(Donneur.isValideAnalyseTDR==False, Donneur.is_tdr_done==True).all())
 
         # total des Donneurs: un donneur est un candidat au don dont les resultats du medecin et l'analyse TDR sont validees
 

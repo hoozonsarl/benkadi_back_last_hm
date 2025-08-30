@@ -18,6 +18,7 @@ class Reactif(Base):
     numero_lot: str = Column(String, nullable=True)
     date_expiration: date = Column(Date, nullable=True)
     date_production: date = Column(Date, nullable=True)
+    is_deleted: bool = Column(Boolean, default=False)
     id_user: int = Column(Integer, ForeignKey("users.id"))
 
     createdAt: datetime  = Column(DateTime, default=datetime.now)

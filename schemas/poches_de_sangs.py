@@ -7,7 +7,7 @@ from schemas.parametres import DonneurResponseModel, ParametreResponseModel
 
 class PocheDeSangCreate(BaseModel):
     groupeSanguin: GroupeSanguin = Field(examples=["A+", "A-", "O+"])
-    phenotype: str = Field(examples=["string", "string string"])
+    phenotype:  Optional[str] = Field(default=None, examples=["string", "string string"])
     dateAnalyse: datetime = Field()
     estvalide: bool = Field(default=False)
     id_prelevement: int = Field(examples=[1])

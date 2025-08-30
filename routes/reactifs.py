@@ -92,3 +92,21 @@ def delete_Reactif(id_Reactif: int, db: Session = Depends(get_db), user: User = 
 
     
     return HTTPException(status_code=status.HTTP_200_OK, detail=f"Reactif with id: {id_Reactif} successfully deleted")
+
+
+
+#soft delete
+@ReactifRouter.delete("/soft_delete/{id_Reactif}", description=f"Delete de Reactif", status_code=status.HTTP_204_NO_CONTENT)
+def soft_delete_Reactif(id_Reactif: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+
+    dao_Reactif = DaoReactif(db=db)
+
+    Reactif_exist = dao_Reactif.get_reactif_by_id(id_reactif=id_Reactif)
+    
+    if not Reactif_exist:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Reactif with id: {id_Reactif} you want to update don't exist")
+    
+    dao_Reactif.soft_delete_reactif(id_reactif=id_Reactif)
+
+    return HTTPException(status_code=status.HTTP_200_OK, detail=f"Reactif with id: {id_Reactif} successfully deleted")
+

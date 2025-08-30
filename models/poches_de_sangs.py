@@ -10,7 +10,7 @@ class PocheDeSang(Base):
 
     id: int = Column(Integer, primary_key=True, unique=True)
     groupeSanguin: GroupeSanguin = Column(Enum(GroupeSanguin))
-    phenotype: str = Column(String, default="")
+    phenotype: str = Column(String, default=None)
     dateAnalyse: datetime = Column(DateTime)
     estvalide: bool = Column(Boolean, default=False)
     estFractionne: bool = Column(Boolean, default=False)

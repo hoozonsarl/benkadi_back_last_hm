@@ -17,7 +17,7 @@ class DaoReactif():
         self.db=db
 
     def get_all_reactifs(self):
-        reactfis  =  self.db.query(Reactif).all()
+        reactfis  =  self.db.query(Reactif).filter(Reactif.is_deleted==False).all()
         return reactfis
     
     def get_reactif_by_id(self, id_reactif:int):
@@ -72,3 +72,12 @@ class DaoReactif():
     def delete_reactif(self, reactif: Reactif):
         self.db.delete(reactif)
         self.db.commit()
+
+
+    #soft delete
+    def soft_delete_reactif(self, id_reactif:int):
+        reactif = self.db.query(Reactif).filter(Reactif.id==id_reactif).first()
+        reactif.is_deleted = True
+        self.db.commit()
+        self.db.refresh(reactif)
+        return reactif
